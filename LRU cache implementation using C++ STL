@@ -1,0 +1,88 @@
+#include <bits/stdc++.h>   //summu_14
+using namespace std; 
+#define ll long long
+#define vi vector<ll>
+#define pb push_back
+#define ff first
+#define ss second
+#define pii pair<ll,ll>
+#define mod 1000000007
+#define endl "\n"
+void google(int x){
+    cout<<"Case #"<<x<<": ";
+}
+//---------------------------------------------------------------------------
+//LRU cache implementation using c++ STL
+//---------------------------------------------------------------------------
+
+class LRUcache{
+    //store keys of cache::this acts as a queue with doubly linked list
+    list<int> dq;
+    
+    //storing refernces of the queue in hashmap
+    unordered_map<int, list<int>::iterator> ma;
+    int csize;
+    
+    public:
+        LRUcache(int);
+        void refer(int);
+        void display();
+    
+    
+};
+
+LRUcache::LRUcache(int n)
+{
+    csize = n;
+}
+
+//Refers key x with in the LRU cache
+
+void LRUcache::refer(int x){
+    //1.Not present in cache
+    if(ma.find(x)==ma.end()){
+        //cache is full
+        if(dq.size() == csize){
+            int last=dq.back();
+            dq.pop_back();
+            ma.erase(last);
+        }
+    }
+    
+    // if its present
+    else{
+        dq.erase(ma[x]);
+    }
+    
+    //update the reference
+    
+    dq.push_front(x);
+    ma[x] = dq.begin();
+}
+
+//display function
+
+void LRUcache::display(){
+    for(auto x:dq){
+        cout<<x<<" ";
+    }
+    cout<<endl;
+}
+
+
+//main function
+
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    LRUcache ca(4);
+    ca.refer(1);   // 5 4 1 3 
+    ca.refer(2);
+    ca.refer(3);
+    ca.refer(1);
+    ca.refer(4);
+    ca.refer(5);
+    ca.display();
+	return 0;
+}
